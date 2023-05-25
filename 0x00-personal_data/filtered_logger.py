@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-filter_datum: Contains functions for filtering sensitive data and logging.
+Personal data: Contains functions for filtering sensitive data and logging
 """
 
-from typing import List
 import re
 import logging
+from typing import List
 import mysql.connector
 import os
 
@@ -36,14 +36,12 @@ def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """
     Returns the log message with sensitive fields obfuscated.
-
     Args:
         fields: list of strings representing all fields to obfuscate.
         redaction: string representing by what the field will be obfuscated.
         message: string representing the log line.
         separator: a string representing the character separating all
                     fields in the log line
-
     Returns:
         The obfuscated log message.
     """
@@ -56,7 +54,6 @@ def filter_datum(fields: List[str], redaction: str,
 def get_logger() -> logging.Logger:
     """
     Creates a logger named "user_data" and returns it.
-
     Returns:
         The created logger.
     """
@@ -74,22 +71,20 @@ def get_logger() -> logging.Logger:
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """
     Returns a MySQL database connection.
-
     Returns:
         The MySQL database connector.
     """
-    user = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
-    password = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
+    user_name = os.getenv('PERSONAL_DATA_DB_USERNAME', 'root')
+    pword = os.getenv('PERSONAL_DATA_DB_PASSWORD', '')
     host = os.getenv('PERSONAL_DATA_DB_HOST', 'localhost')
-    database = os.getenv('PERSONAL_DATA_DB_NAME')
+    dbase = os.getenv('PERSONAL_DATA_DB_NAME')
 
-    connector = mysql.connector.connect(
-        user=user,
-        password=password,
+    db_connect = mysql.connector.connect(
+        user=user_name,
+        password=pword,
         host=host,
-        database=database)
-
-    return connector
+        database=dbase)
+    return db_connect
 
 
 def main():
